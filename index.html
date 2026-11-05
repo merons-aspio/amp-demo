@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aspio Demo: Recording Script</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f4f6fb;--card:#fff;--tx:#1b2333;--mu:#5d6b82;--bd:#e2e7f0;--pri:#4f46e5;
+--ab:#e8f0ff;--at:#1d4ed8;--nb:#e6f7ee;--nt:#047857;--cb:#fff4dc;--ct:#b45309}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1420;--card:#171e2e;--tx:#e8ecf5;--mu:#9aa8c0;--bd:#2a3550;--pri:#8b85ff;
+--ab:#16284d;--at:#8db4ff;--nb:#0f2e24;--nt:#5fd8a6;--cb:#3a2d10;--ct:#f5c26b}}
+:root[data-theme="dark"]{--bg:#0f1420;--card:#171e2e;--tx:#e8ecf5;--mu:#9aa8c0;--bd:#2a3550;--pri:#8b85ff;--ab:#16284d;--at:#8db4ff;--nb:#0f2e24;--nt:#5fd8a6;--cb:#3a2d10;--ct:#f5c26b}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:0 16px 60px}
+header{background:linear-gradient(135deg,#4f46e5,#7c3aed 60%,#db2777);color:#fff;border-radius:0 0 24px 24px;padding:40px 24px 32px;margin:0 -16px 20px}
+header h1{margin:0 0 6px;font-size:clamp(26px,5vw,38px)}header p{margin:0;opacity:.9}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.meta span{background:rgba(255,255,255,.18);padding:4px 12px;border-radius:99px;font-size:13px}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 20px}
+.tag{font-size:12px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:6px;display:inline-block}
+.A{background:var(--ab);color:var(--at)}.N{background:var(--nb);color:var(--nt)}.C{background:var(--cb);color:var(--ct)}
+.box{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px 20px;margin-bottom:20px}
+.box h2{margin:0 0 8px;font-size:18px}.box ul{margin:0;padding-left:20px}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:8px 0;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.bar select,.bar button{font:inherit;font-size:14px;padding:6px 12px;border-radius:8px;border:1px solid var(--bd);background:var(--card);color:var(--tx);cursor:pointer}
+.prog{flex:1;min-width:80px;height:6px;background:var(--bd);border-radius:9px;overflow:hidden}.prog i{display:block;height:100%;width:0;background:var(--pri)}
+.sc{background:var(--card);border:1px solid var(--bd);border-left:5px solid var(--pri);border-radius:14px;padding:16px 20px;margin-bottom:16px}
+.sc h3{margin:0 0 12px;display:flex;align-items:center;gap:10px;font-size:19px}
+.n{background:var(--pri);color:#fff;border-radius:50%;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;font-size:14px;flex:none}
+.r{border-radius:10px;padding:10px 14px;margin-top:8px}.r .tag{margin-bottom:4px;padding:0;background:none}
+.r.A{background:var(--ab)}.r.N{background:var(--nb);font-size:var(--fs,17px)}.r.C{background:var(--cb)}
+.r.A .tag{color:var(--at)}.r.N .tag{color:var(--nt)}.r.C .tag{color:var(--ct)}
+.r div{color:var(--tx)}
+.done{opacity:.45}
+.notes{background:var(--card);border:1px dashed var(--pri);border-radius:14px;padding:16px 20px;margin-top:24px}
+@media print{.bar{display:none}header{border-radius:0}.sc{break-inside:avoid}}
+</style></head><body><div class="wrap">
+<header><h1>Aspio Product Demo</h1><p>Recording script: screen capture with voice-over</p>
+<div class="meta"><span>Calm, enterprise-friendly tone</span><span>About 10–12 min</span><span>Start: app.aspio.com/dashboard</span></div></header>
+<div class="legend"><span class="tag A">ACTION: do on screen</span><span class="tag N">SAY: read aloud</span><span class="tag C">CAPTION: overlay text</span></div>
+<div class="box"><h2>Pre-recording checklist</h2><ul>
+<li>Browser at 100% zoom, 1920×1080, notifications off.</li>
+<li>Demo org pre-loaded with realistic data (branches, payslips, leave requests).</li>
+<li>Unused email ready; verification and invite emails open in a second tab.</li>
+<li>Confirm Inventory, HR, Company Settings, Branding, Shift Reminders and Export are reachable (they are not in the sidebar list).</li>
+<li>Do one silent dry run. Pause about one second after each click.</li></ul></div>
+<div class="bar"><select id="jump" aria-label="Jump to scene"></select><button id="fs">Larger text</button><span class="prog"><i id="pg"></i></span></div>
+<div id="list"></div>
+<div class="notes"><b>Production notes</b><ul>
+<li>Only Scene 1 fits the 0:45 hook window; the full walkthrough is much longer.</li>
+<li>Files is in the sidebar but has no scene; six scenes use modules missing from the sidebar list.</li>
+<li>Scenes 24 and 25 are near-duplicates; consider merging.</li>
+<li>Agree on the pronunciation of “Aspio” with the narrator.</li></ul></div>
+</div>
+<script>
+var S=[
+["Opening hook (0:00–0:45)","A clean, spacious dashboard. An HR or facilities manager glances at a spreadsheet, then opens a browser tab to app.aspio.com/dashboard.","Welcome. If you’ve ever wished your team’s attendance, leave, and payroll could all be tracked in one place, without the manual headache, you’re in the right spot. Aspio is built for organizations that want clear visibility into who’s present, who’s away, and how it all adds up, without the spreadsheets. Let’s start at the beginning: creating an account and setting up your organization.","One workspace. No spreadsheets."],
+["Create an account","Click Sign Up. Enter name, email, company name. Verify email. Land on welcome screen.","First, you create an account. That takes you to the dashboard, the heartbeat of Aspio. From here, you can see the big picture: attendance trends, upcoming leave, payroll summaries, and more. It’s designed so you never have to hunt for information."],
+["Tour of the sidebar","Hover the left sidebar. Modules animate in: Dashboard, Attendance, Leave, Chat, News, Calendar, Projects, Organization Chart, Employees, Files, Payroll, Reports, Academy, Billing, Settings, Users, Branches.","Along the left, you’ll see all the modules Aspio offers. Each one is a self-contained area for a different part of running your organization. We’ll walk through them in the order a typical user would experience them, starting with the foundational setup."],
+["Set up the organization","Click Organization. Add company name and a primary branch or location.","Next, you set up your organization. That means naming your company, adding your first branch or location, and defining the high-level structure. This is where Aspio becomes the single source of truth for where people work and how they’re grouped."],
+["Add a branch","Click Branches. Add a new branch office in a different city.","Adding branches is straightforward. You can create as many locations as you need, each with its own team structure. This is especially useful for organizations with multiple sites or remote offices."],
+["Add an employee","Click Employees. Add name, email, role, start date, branch.","With the organization in place, you start adding employees. A few basic details (name, role, start date, which branch they’re assigned to) and they’re in the system. From here, you can invite them to join, and they’ll receive an email to complete their onboarding."],
+["Invite the employee","Click Invite. Employee gets the email, sets a password, lands on their own dashboard.","The new employee gets an invitation, sets their password, and lands on their own dashboard. From there, they can clock in, request leave, view payslips, and participate in the social features we’ll see next."],
+["Attendance","Click Attendance. Show Clock In and Clock Out buttons. Click Clock In.","Now let’s look at how people record their day. The Attendance module is the place for clock-ins and clock-outs. It’s designed to be quick: one tap, and the time is logged. No complicated forms, no guesswork."],
+["Leave","Click Leave. Show categories (Annual, Sick, Flexible Day). Select Annual Leave, 3 days, submit.","When someone needs time off, they go to Leave. Here they can select the type (annual, sick, flexible, or any other category your organization uses), enter the dates, and submit. The request flows to the appropriate reviewer, and the system updates attendance balances automatically."],
+["Calendar","Click Calendar. Monthly view with shifts, approved leave, team events.","The Calendar gives you an at-a-glance view of who’s in, who’s out, and what’s scheduled. It pulls in clock-in data, approved leave, and any team events you’ve added, so there are no surprises about coverage."],
+["Chat","Click Chat. Open a conversation and type a message.","Keeping the team connected is Chat. It’s a simple messaging space where colleagues can coordinate, share quick updates, or ask questions, all within Aspio, with no need to switch to another app."],
+["News","Click News. Create an announcement: title, body, audience (all, branch, or team). Publish.","Announcements live in News. Whether it’s a policy update, a welcome message for new hires, or a celebration, you can publish to everyone, to a specific branch, or to a particular team. It’s the way to make sure the right people see the right information at the right time."],
+["Organization chart","Click Organization Chart. Show the tree. Click an employee card.","The Organization Chart visualizes your structure. It shows reporting lines, team memberships, and can be filtered by branch. Clicking any card reveals that person’s role, branch, and contact details."],
+["Payroll","Click Payroll. Show total amount, payment status, period selector.","Payroll is where attendance data turns into pay. Aspio calculates hours, factoring in clock-ins, leave, and overtime, and presents a summary you can review before processing. It’s designed to reduce the manual math that often comes with payroll cycles."],
+["My payslips","Click My Payslips. Open one to show earnings, deductions, net pay.","Employees can view their own payslips anytime in My Payslips. Each one shows a clear breakdown of earnings, deductions, and net pay. Nothing hidden, everything searchable."],
+["Reports","Click Reports. Pick Attendance Summary, Leave Balance or Payroll Costs. Set dates, click Generate.","When you need deeper insight, Reports is where you go. Pre-built summaries (attendance trends, leave balances, payroll costs) can be filtered by date, branch, team, or employee. Export to CSV if you need to share externally."],
+["Academy","Click Academy. Browse Security Awareness, Data Privacy, Leadership Fundamentals. Enroll yourself or a team.","Academy is the training hub. Your organization can upload or purchase modules (security awareness, compliance, leadership skills, and more) and assign them to individuals or groups. Completion is tracked, and reminders nudge anyone who’s fallen behind."],
+["Billing","Click Billing. Show plan, usage, add-ons. Hover Upgrade or Add Feature.","Billing shows your current plan, usage metrics, and any add-on features your organization has enabled. Upgrades or additional capabilities can be added with a few clicks, and the change takes effect at the next billing cycle."],
+["Settings","Click Settings. Show company name, time zone, currency, email notifications, roles and permissions.","Settings is where the organization’s preferences live. Company name, time zone, currency for payroll, email notification defaults, and user role definitions (who can approve leave, who can view payroll, who can manage branches) are all here."],
+["Users","Click Users. Filter by role, branch, status. Click Invite New.","The Users module gives you a full list of everyone in the organization, with filters for role, branch, and status. From here you can invite new team members, adjust roles and permissions, or deactivate access when someone leaves."],
+["Inventory","Click Inventory. Show equipment catalog. Check an item out to an employee.","For organizations that track physical assets, Inventory lets you catalog equipment (laptops, projectors, vehicles, whatever you need). You can check items out to employees, see who has what, and track return status."],
+["Projects","Click Projects. Create a project, add members, set milestones, show progress.","If your work happens in projects, the Projects module helps you create them, assign team members, set milestones, and track progress. It’s a lightweight way to keep deliverables and ownership visible without a full-blown project-management tool."],
+["HR","Click HR. Show onboarding checklist, offboarding steps, document repository.","The HR module handles the employee lifecycle: onboarding checklists, offboarding steps, and a place to store important documents (contracts, policy acknowledgments, emergency contacts), all in one searchable spot."],
+["Company settings","Click Company Settings. Upload logo, pick color theme, edit email signature.","Company Settings lets you personalize the look and feel. Upload your logo, choose accent colors that match your brand, customize email signatures. It’s a small detail, but it makes the platform feel like yours."],
+["Branding","Click Branding. Quick preview of the dashboard with the org’s colors and logo.","Branding ties it all together visually. Your logo, your colors, your visual identity: every screen in Aspio reflects them, so employees and administrators alike see a consistent experience."],
+["Shift reminders","Click Shift Reminders. Configure reminders for upcoming shifts, late clock-ins, missed breaks.","Shift Reminders help keep schedules on track. You can set up automatic notifications for upcoming shifts, late clock-ins, or missed breaks, ensuring nothing falls through the cracks without anyone having to manually check."],
+["Export","Click Export. Choose date range, module (Attendance, Payroll, Employees), format (CSV or Excel). Export.","When you need data outside the system, Export lets you pull attendance records, payroll summaries, employee lists, whatever you need, in a format you can open in spreadsheet software or import into other systems."],
+["Back to the dashboard","Return to Dashboard. Show widgets: today’s clock-ins, pending leave, upcoming payroll deadline.","All of these modules work together from the Dashboard, where key metrics give you a quick health check: today’s clock-ins, pending leave, upcoming payroll. You can drill into any module from here, or let the widgets surface what matters most."],
+["Closing","Click profile picture, then Sign Out. Redirect to login. Fade to Aspio logo.","And that’s the full journey: from creating an account, through organizing your workforce, tracking attendance and leave, running payroll, gaining insights, and administering the whole setup. Everything is connected, so you spend less time in spreadsheets and more time supporting your people.","Aspio: Simplify how you work."]];
+var L=document.getElementById("list"),J=document.getElementById("jump");
+S.forEach(function(s,i){
+var d=document.createElement("section");d.className="sc";d.id="s"+(i+1);
+var h="<h3><span class='n'>"+(i+1)+"</span>"+s[0]+"</h3><div class='r A'><span class='tag'>ACTION</span><div></div></div><div class='r N'><span class='tag'>SAY</span><div></div></div>";
+if(s[3])h+="<div class='r C'><span class='tag'>CAPTION</span><div></div></div>";
+d.innerHTML=h;var x=d.querySelectorAll(".r div");
+x[0].textContent=s[1];x[1].textContent="“"+s[2]+"”";if(s[3])x[2].textContent=s[3];
+d.addEventListener("click",function(){d.classList.toggle("done");var n=document.querySelectorAll(".done").length;document.getElementById("pg").style.width=(n/S.length*100)+"%"});
+L.appendChild(d);
+var o=document.createElement("option");o.value="s"+(i+1);o.textContent=(i+1)+". "+s[0];J.appendChild(o)});
+J.onchange=function(){document.getElementById(J.value).scrollIntoView({behavior:"smooth"})};
+var big=false;document.getElementById("fs").onclick=function(){big=!big;document.documentElement.style.setProperty("--fs",big?"22px":"17px");this.textContent=big?"Normal text":"Larger text"};
+</script></body></html>
